@@ -18,13 +18,51 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-#    - name: Build with Maven
-#      run: mvn -B package --file pom.xml
     - name: Run the Maven verify phase
       run: mvn --batch-mode --update-snapshots verify
-    - name: Create target in staging
-      run: mkdir staging && cp target/*.jar staging
-    - uses: actions/upload-artifact@v3
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+
+    - name: Build the custom Docker image
+      run: docker build -t ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}} .
+
+    - name: show docker images
+      run: docker images
+
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+          
+    - name: Docker Push
+      run: docker push ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}}
+      
+    - name: update docker user in k8 
+      run: sed -i 's/{docker_user}/${{secrets.DOCKER_USER}}/g' manifests/k8s.yml
+
+    - name: update model name in k8 
+      run: sed -i 's/{model_name}/${{secrets.MODEL_NAME}}/g' manifests/k8s.yml
+
+    - name: update _ by - 
+      run: sed -i 's/_/-/g' manifests/k8s.yml
+
+    - name: update sha in k8
+      run: sed -i 's/{github.sha}/${{github.sha}}/g' manifests/k8s.yml
+
+    - name: ls -la 
+      run: cat manifests/k8s.yml
+        
+    - uses: okteto/context@2.7.0
       with:
-        name: Package
-        path: staging
+        token: ${{secrets.OKTETO_TOKEN }}
+
+    - name: Deploy and Wait
+      uses: okteto/actions/deploy@v1
+      env:
+        KUBECONFIG: ${{ steps.namespace.outputs.kubeconfig }}
+      with:
+        namespace: ${{secrets.OKTETO_NAMESPACE }}
+        manifest: manifests/k8s.yml
+        tag: ${{ secrets.DOCKER_USERNAME }}/${{secrets.MODEL_NAME}}:${{github.sha}}
