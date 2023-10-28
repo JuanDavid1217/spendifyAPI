@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: {model_name}-server
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -34,3 +34,4 @@ spec:
   selector:
     app: {model_name}-server
   type: LoadBalancer
+
