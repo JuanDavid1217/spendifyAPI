@@ -43,10 +43,10 @@ public class PresupuestoDetalle implements Serializable{
     @Column()
     private BigDecimal monto;
     
-    @OneToMany(mappedBy="detalle", cascade={CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy="detalle", cascade={CascadeType.REMOVE/*, CascadeType.MERGE*/})
     private List<Gasto> gastos;
     
-    @OneToOne(mappedBy="detalle", cascade={CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToOne(mappedBy="detalle", cascade={CascadeType.REMOVE/*, CascadeType.MERGE*/})
     private Notificacion notificacion;
 
     public long getIdPresupuestoDetalle() {

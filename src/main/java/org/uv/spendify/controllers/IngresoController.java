@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.uv.spendify.DTOs.ingresos.NuevoIngreso;
+import org.uv.spendify.DTOs.ingresos.IngresoNuevo;
 import org.uv.spendify.DTOs.ingresos.IngresoRegistrado;
 import org.uv.spendify.services.IngresoService;
 
@@ -37,7 +37,7 @@ public class IngresoController {
     }
     
     @PostMapping("/saveIncome")
-    public ResponseEntity<IngresoRegistrado> saveIncome(@RequestBody NuevoIngreso newIncome){
+    public ResponseEntity<IngresoRegistrado> saveIncome(@RequestBody IngresoNuevo newIncome){
         IngresoRegistrado registeredIncome=service.saveIncome(newIncome);
         URI ubication = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(registeredIncome.getId_ingreso()).toUri();

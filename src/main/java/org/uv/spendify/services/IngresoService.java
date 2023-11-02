@@ -9,7 +9,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.uv.spendify.DTOs.ingresos.NuevoIngreso;
+import org.uv.spendify.DTOs.ingresos.IngresoNuevo;
 import org.uv.spendify.DTOs.ingresos.IngresoRegistrado;
 import org.uv.spendify.converters.incomes.NuevoIngresoConverter;
 import org.uv.spendify.converters.incomes.IngresoRegistradoConverter;
@@ -46,7 +46,7 @@ public class IngresoService {
         this.userService=userService;
     }
     
-    public IngresoRegistrado saveIncome(NuevoIngreso newIncome){
+    public IngresoRegistrado saveIncome(IngresoNuevo newIncome){
         if(incomeTypeService.findById(newIncome.getId_tipo())!=null){
             if(userService.userbyId(newIncome.getId_usuario())!=null){
                 if(montoValidation(newIncome.getMonto())){

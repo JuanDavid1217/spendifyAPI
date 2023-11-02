@@ -36,5 +36,39 @@ public class Notificacion implements Serializable{
     private String descripcion;
     
     @Column()
-    private double unmbral; 
+    private double umbral;
+
+    public long getIdNotificacion() {
+        return idNotificacion;
+    }
+
+    public void setIdNotificacion(long idNotificacion) {
+        this.idNotificacion = idNotificacion;
+    }
+
+    public PresupuestoDetalle getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(PresupuestoDetalle detalle) {
+        this.detalle = detalle;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public double getUmbral() {
+        return umbral;
+    }
+
+    public void setUmbral(double umbral) {
+        this.umbral = umbral;
+    }
+    
+    
 }

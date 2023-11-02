@@ -8,9 +8,9 @@ package org.uv.spendify.DTOs.ingresos;
  *
  * @author juan
  */
-public class NuevoIngreso extends IngresoBase{
+public class IngresoNuevo extends IngresoBase{
     
-    public NuevoIngreso(){
+    public IngresoNuevo(){
         super();
     }
     

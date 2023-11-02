@@ -26,7 +26,7 @@ public class TipoGasto implements Serializable{
     private long idTipoGasto;
     
     @Column()
-    private long tipo;
+    private String tipo;
 
     public long getIdTipoGasto() {
         return idTipoGasto;
@@ -36,11 +36,11 @@ public class TipoGasto implements Serializable{
         this.idTipoGasto = idTipoGasto;
     }
 
-    public long getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(long tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
     

@@ -131,4 +131,12 @@ public class Validacion {
             return false;
         }
     }
+    
+    public static boolean umbralValidation(double umbral){
+        if(umbral>0&&umbral<=100){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

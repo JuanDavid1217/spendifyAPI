@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-import org.uv.spendify.DTOs.ingresos.NuevoIngreso;
+import org.uv.spendify.DTOs.ingresos.IngresoNuevo;
 import org.uv.spendify.converters.Converter;
 import org.uv.spendify.models.Ingreso;
 import org.uv.spendify.models.TipoIngreso;
@@ -21,7 +21,7 @@ import static org.uv.spendify.validaciones.Validacion.DatetoSring;
  * @author juan
  */
 @Component
-public class NuevoIngresoConverter implements Converter<Ingreso, NuevoIngreso>{
+public class NuevoIngresoConverter implements Converter<Ingreso, IngresoNuevo>{
     private final TipoIngresoRepository tipoIngresoRepositorio;
     
     public NuevoIngresoConverter(TipoIngresoRepository tipoIngresoRepositorio){
@@ -29,7 +29,7 @@ public class NuevoIngresoConverter implements Converter<Ingreso, NuevoIngreso>{
     }
     
     @Override
-    public Ingreso DTOtoEntity(NuevoIngreso dto) {
+    public Ingreso DTOtoEntity(IngresoNuevo dto) {
         Ingreso ingreso=new Ingreso();
         ingreso.setDescripcion(dto.getDescripcion());
         ingreso.setFecha(new java.sql.Date(StringtoDate(dto.getFecha()).getTime()));
@@ -44,8 +44,8 @@ public class NuevoIngresoConverter implements Converter<Ingreso, NuevoIngreso>{
     }
 
     @Override
-    public NuevoIngreso EntitytoDTO(Ingreso entity) {
-        NuevoIngreso newIncome=new NuevoIngreso();
+    public IngresoNuevo EntitytoDTO(Ingreso entity) {
+        IngresoNuevo newIncome=new IngresoNuevo();
         newIncome.setDescripcion(entity.getDescripcion());
         newIncome.setFecha(DatetoSring(entity.getFecha()));
         newIncome.setId_tipo(entity.getTipo().getIdTipoIngreso());
@@ -56,12 +56,12 @@ public class NuevoIngresoConverter implements Converter<Ingreso, NuevoIngreso>{
     }
 
     @Override
-    public List<Ingreso> DTOListtoEntityList(List<NuevoIngreso> dtoList) {
+    public List<Ingreso> DTOListtoEntityList(List<IngresoNuevo> dtoList) {
         return dtoList.stream().map(this::DTOtoEntity).collect(Collectors.toList());
     }
 
     @Override
-    public List<NuevoIngreso> EntityListtoDTOList(List<Ingreso> entityList) {
+    public List<IngresoNuevo> EntityListtoDTOList(List<Ingreso> entityList) {
         return entityList.stream().map(this::EntitytoDTO).collect(Collectors.toList());
     }
 
