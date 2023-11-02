@@ -102,14 +102,14 @@ public class Validacion {
     
     public static String dateValidation(String date){
         String newFormat=null;
-        if(date.length()==10){
+        if(date.length()>8 && date.length()<11){
             String [] parts=date.split("/");
             if(parts.length==3){
                 try{
                     int day=Integer.parseInt(parts[0]);
                     int mont=Integer.parseInt(parts[1]);
                     int year=Integer.parseInt(parts[2]);
-                    if((day>0&&day<32)&&(mont>0&&mont<13)&&year>1800){
+                    if((day>0&&day<32)&&(mont>0&&mont<13)&&year>1900){
                         if(day==29 && mont==2 && year%4!=0){
                             newFormat="Invalid Date.";
                         }else{
