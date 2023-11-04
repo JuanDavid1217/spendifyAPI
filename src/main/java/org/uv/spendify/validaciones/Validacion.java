@@ -29,7 +29,7 @@ public class Validacion {
     private Validacion(){};
     
     private static String miVariable="SuperKey12345678";
-
+    private static String encriptationMode="AES";
     
     private static String regex="^(?=.*\\d)(?=.*[\\u0021-\\u002b\\u003c-\\u0040])(?=.*[A-Z])(?=.*[a-z])\\S{8,16}$";
     
@@ -58,13 +58,13 @@ public class Validacion {
         MessageDigest sha = MessageDigest.getInstance("SHA-1");
         claveEncriptacion = sha.digest(claveEncriptacion);
         claveEncriptacion = Arrays.copyOf(claveEncriptacion, 16);
-        SecretKeySpec secretKey = new SecretKeySpec(claveEncriptacion, "AES");
+        SecretKeySpec secretKey = new SecretKeySpec(claveEncriptacion, encriptationMode);
         return secretKey;
     }
     
     public static String encriptar(String password) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException{
         SecretKeySpec secretKey = crearClave();
-        Cipher cipher = Cipher.getInstance("AES");        
+        Cipher cipher = Cipher.getInstance(encriptationMode);        
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
         byte[] datosEncriptar = password.getBytes("UTF-8");
         byte[] bytesEncriptados = cipher.doFinal(datosEncriptar);
@@ -74,7 +74,7 @@ public class Validacion {
     
     public static String desencriptar(String passwordEncriptada) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
         SecretKeySpec secretKey = crearClave();
-        Cipher cipher = Cipher.getInstance("AES");
+        Cipher cipher = Cipher.getInstance(encriptationMode);
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
         byte[] bytesEncriptados = Base64.getDecoder().decode(passwordEncriptada);
         byte[] datosDesencriptados = cipher.doFinal(bytesEncriptados);
