@@ -19,6 +19,11 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Run the Maven verify phase
+      env:
+        ENCRIPTATIONKEY: ${{secrets.ENCRIPTATIONKEY}}
+        ENCRIPTATIONMODE: ${{secrets.ENCRIPTATIONMODE}}
+        RAILWAYPASSWORD: ${{secrets.RAILWAYPASSWORD}}
+        URLCONNECTION: ${{secrets.URLCONNECTION}}
       run: mvn --batch-mode --update-snapshots verify
     - name: Build with Maven
       run: mvn -B package --file pom.xml
@@ -33,10 +38,6 @@ jobs:
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        ENCRIPTATIONKEY: ${{secrets.ENCRIPTATIONKEY}}
-        ENCRIPTATIONMODE: ${{secrets.ENCRIPTATIONMODE}}
-        RAILWAYPASSWORD: ${{secrets.RAILWAYPASSWORD}}
-        URLCONNECTION: ${{secrets.URLCONNECTION}}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
           
