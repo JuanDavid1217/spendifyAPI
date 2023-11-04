@@ -57,6 +57,7 @@ public class Usuario implements Serializable{
     @OneToMany(mappedBy="usuario", cascade={CascadeType.REMOVE})
     private List<Ingreso> ingresos;
     
+
     public long getIdUsuario() {
         return idUsuario;
     }
@@ -137,6 +138,7 @@ public class Usuario implements Serializable{
         this.apellidoMaterno = apellidoMaterno;
     }
     
+
     
     
 }

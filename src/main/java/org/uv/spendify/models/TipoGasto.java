@@ -36,11 +36,13 @@ public class TipoGasto implements Serializable{
         this.idTipoGasto = idTipoGasto;
     }
 
+
     public String getTipo() {
         return tipo;
     }
 
     public void setTipo(String tipo) {
+
         this.tipo = tipo;
     }
     

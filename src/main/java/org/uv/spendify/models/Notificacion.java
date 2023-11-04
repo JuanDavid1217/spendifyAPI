@@ -70,5 +70,4 @@ public class Notificacion implements Serializable{
         this.umbral = umbral;
     }
     
-    
 }
