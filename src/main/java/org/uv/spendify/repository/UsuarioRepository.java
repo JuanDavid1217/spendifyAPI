@@ -12,5 +12,7 @@ import org.uv.spendify.models.Usuario;
  * @author juan
  */
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
+
     public Usuario findByEmail(String email);
+
 }

@@ -12,5 +12,6 @@ import org.uv.spendify.models.Ingreso;
  * @author juan
  */
 public interface IngresoRepository extends JpaRepository<Ingreso, Long>{//para convertir tipos directos en sentencias sql se utiliza cast(campo as tipo)
+
     
 }
