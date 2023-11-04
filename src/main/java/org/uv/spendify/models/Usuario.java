@@ -5,11 +5,15 @@
 package org.uv.spendify.models;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -39,7 +43,20 @@ public class Usuario implements Serializable{
     private String password;
     
     @Column()
-    private String token;
+    private String nombre;
+    
+    @Column(name="apellido_paterno")
+    private String apellidoPaterno;
+    
+    @Column(name="apellido_Materno")
+    private String apellidoMaterno;
+    
+    @OneToMany(mappedBy="usuario", cascade={CascadeType.REMOVE})
+    private List<Presupuesto> presupuestos;
+    
+    @OneToMany(mappedBy="usuario", cascade={CascadeType.REMOVE})
+    private List<Ingreso> ingresos;
+    
 
     public long getIdUsuario() {
         return idUsuario;
@@ -81,13 +98,47 @@ public class Usuario implements Serializable{
         this.password = password;
     }
 
-    public String getToken() {
-        return token;
+    public List<Presupuesto> getPresupuestos() {
+        return presupuestos;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setPresupuestos(List<Presupuesto> presupuestos) {
+        this.presupuestos = presupuestos;
     }
+
+    public List<Ingreso> getIngresos() {
+        return ingresos;
+    }
+
+    public void setIngresos(List<Ingreso> ingresos) {
+        this.ingresos = ingresos;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
+    
+
     
     
 }
