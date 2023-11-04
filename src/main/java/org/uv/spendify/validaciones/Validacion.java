@@ -28,8 +28,10 @@ public class Validacion {
     
     private Validacion(){};
     
+
     private static String miVariable=System.getenv("ENCRIPTATIONKEY");
     private static String encriptationMode=System.getenv("ENCRIPTATIONMODE");
+
     
     private static String regex="^(?=.*\\d)(?=.*[\\u0021-\\u002b\\u003c-\\u0040])(?=.*[A-Z])(?=.*[a-z])\\S{8,16}$";
     
