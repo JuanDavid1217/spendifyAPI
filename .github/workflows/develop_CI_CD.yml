@@ -33,6 +33,10 @@ jobs:
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        ENCRIPTATIONKEY: ${{secrets.ENCRIPTATIONKEY}}
+        ENCRIPTATIONMODE: ${{secrets.ENCRIPTATIONMODE}}
+        RAILWAYPASSWORD: ${{secrets.RAILWAYPASSWORD}}
+        URLCONNECTION: ${{secrets.URLCONNECTION}}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
           
