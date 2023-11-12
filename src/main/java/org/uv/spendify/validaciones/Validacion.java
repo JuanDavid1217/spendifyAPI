@@ -60,6 +60,7 @@ public class Validacion {
         claveEncriptacion = sha.digest(claveEncriptacion);
         claveEncriptacion = Arrays.copyOf(claveEncriptacion, 16);
         return new SecretKeySpec(claveEncriptacion, encriptationMode);
+
     }
     
     public static String encriptar(String password) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException{
