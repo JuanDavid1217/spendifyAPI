@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.uv.spendify.DTOs.presupuestos.PresupuestoNuevo;
-import org.uv.spendify.DTOs.presupuestos.PresupuestoBase;
-import org.uv.spendify.DTOs.presupuestos.PresupuestoRegistrado;
+import org.uv.spendify.dtos.presupuestos.PresupuestoNuevo;
+import org.uv.spendify.dtos.presupuestos.PresupuestoBase;
+import org.uv.spendify.dtos.presupuestos.PresupuestoRegistrado;
 import org.uv.spendify.exceptions.Exceptions;
 import org.uv.spendify.services.PresupuestoService;
 
@@ -58,9 +58,9 @@ public class PresupuestoController {
         }
     }
     
-    @GetMapping("/getAllBudgesByUser/{id}")
-    public ResponseEntity<List<PresupuestoRegistrado>> getAllButgetByUser(@PathVariable("id") long id){
-        List<PresupuestoRegistrado> p=service.getAllBudgetByUser(id);
+    @GetMapping("/getAllBudgesByUser")
+    public ResponseEntity<List<PresupuestoRegistrado>> getAllButgetByUser(){
+        List<PresupuestoRegistrado> p=service.getAllBudgetByUser();
         if(p!=null){
             return ResponseEntity.ok(p);
         }else{
@@ -86,9 +86,9 @@ public class PresupuestoController {
         }
     }
     
-    @DeleteMapping("deleteAllBudgetByUser/{id}")
-    public ResponseEntity<Void> deleteAllBudgetByUser(@PathVariable("id") long id){
-        if(service.deleteAllPresupuestoByUser(id)){
+    @DeleteMapping("deleteAllBudgetByUser")
+    public ResponseEntity<Void> deleteAllBudgetByUser(){
+        if(service.deleteAllPresupuestoByUser()){
             return ResponseEntity.noContent().build();
         }else{
             return ResponseEntity.notFound().build();

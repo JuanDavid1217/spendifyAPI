@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.uv.spendify.DTOs.ingresos;
+package org.uv.spendify.dtos.ingresos;
 
 /**
  *
@@ -13,14 +13,14 @@ public class IngresoRegistrado extends IngresoNuevo{
         super();
     }
     
-    private long id_ingreso;
+    private long idIngreso;
 
     public long getId_ingreso() {
-        return id_ingreso;
+        return idIngreso;
     }
 
-    public void setId_ingreso(long id_ingreso) {
-        this.id_ingreso = id_ingreso;
+    public void setId_ingreso(long idIngreso) {
+        this.idIngreso = idIngreso;
     }
     
 }

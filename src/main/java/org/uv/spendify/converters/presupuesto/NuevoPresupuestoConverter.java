@@ -7,15 +7,15 @@ package org.uv.spendify.converters.presupuesto;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-import org.uv.spendify.DTOs.presupuestos.PresupuestoNuevo;
-import org.uv.spendify.DTOs.presupuestos_det.DetalleNuevo;
+import org.uv.spendify.dtos.presupuestos.PresupuestoNuevo;
+import org.uv.spendify.dtos.presupuestos_det.DetalleNuevo;
 import org.uv.spendify.converters.Converter;
 import org.uv.spendify.converters.presupuesto_det.NuevoDetalleConverter;
 import org.uv.spendify.models.Presupuesto;
 import org.uv.spendify.models.PresupuestoDetalle;
 import org.uv.spendify.models.Usuario;
-import static org.uv.spendify.validaciones.Validacion.StringtoDate;
-import static org.uv.spendify.validaciones.Validacion.DatetoSring;
+import static org.uv.spendify.validaciones.Validacion.stringtoDate;
+import static org.uv.spendify.validaciones.Validacion.datetoSring;
 
 /**
  *
@@ -30,12 +30,12 @@ public class NuevoPresupuestoConverter implements Converter<Presupuesto, Presupu
     }
     
     @Override
-    public Presupuesto DTOtoEntity(PresupuestoNuevo dto) {
+    public Presupuesto dtotoEntity(PresupuestoNuevo dto) {
         Presupuesto nuevo=new Presupuesto();
-        List<PresupuestoDetalle> detalles=detalleConverter.DTOListtoEntityList(dto.getDetalles());
+        List<PresupuestoDetalle> detalles=detalleConverter.dtoListtoEntityList(dto.getDetalles());
         nuevo.setDetalles(detalles);
-        nuevo.setFechaInicio(new java.sql.Date(StringtoDate(dto.getFechaInicio()).getTime()));
-        nuevo.setFechaFin(new java.sql.Date(StringtoDate(dto.getFechaFin()).getTime()));
+        nuevo.setFechaInicio(new java.sql.Date(stringtoDate(dto.getFechaInicio()).getTime()));
+        nuevo.setFechaFin(new java.sql.Date(stringtoDate(dto.getFechaFin()).getTime()));
         nuevo.setMontoTotal(dto.getMontoTotal());
         Usuario u=new Usuario();
         u.setIdUsuario(dto.getIdUsuario());
@@ -44,25 +44,25 @@ public class NuevoPresupuestoConverter implements Converter<Presupuesto, Presupu
     }
 
     @Override
-    public PresupuestoNuevo EntitytoDTO(Presupuesto entity) {
+    public PresupuestoNuevo entitytoDTO(Presupuesto entity) {
         PresupuestoNuevo nuevo=new PresupuestoNuevo();
-        List<DetalleNuevo> detalles=detalleConverter.EntityListtoDTOList(entity.getDetalles());
+        List<DetalleNuevo> detalles=detalleConverter.entityListtoDTOList(entity.getDetalles());
         nuevo.setDetalles(detalles);
-        nuevo.setFechaFin(DatetoSring(entity.getFechaFin()));
-        nuevo.setFechaInicio(DatetoSring(entity.getFechaInicio()));
+        nuevo.setFechaFin(datetoSring(entity.getFechaFin()));
+        nuevo.setFechaInicio(datetoSring(entity.getFechaInicio()));
         nuevo.setIdUsuario(entity.getUsuario().getIdUsuario());
         nuevo.setMontoTotal(entity.getMontoTotal());
         return nuevo;
     }
 
     @Override
-    public List<Presupuesto> DTOListtoEntityList(List<PresupuestoNuevo> dtoList) {
-      return dtoList.stream().map(this::DTOtoEntity).collect(Collectors.toList());
+    public List<Presupuesto> dtoListtoEntityList(List<PresupuestoNuevo> dtoList) {
+      return dtoList.stream().map(this::dtotoEntity).collect(Collectors.toList());
     }
 
     @Override
-    public List<PresupuestoNuevo> EntityListtoDTOList(List<Presupuesto> entityList) {
-        return entityList.stream().map(this::EntitytoDTO).collect(Collectors.toList());
+    public List<PresupuestoNuevo> entityListtoDTOList(List<Presupuesto> entityList) {
+        return entityList.stream().map(this::entitytoDTO).collect(Collectors.toList());
     }
     
 }

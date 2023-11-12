@@ -12,16 +12,18 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.uv.spendify.DTOs.presupuestos.PresupuestoNuevo;
-import org.uv.spendify.DTOs.presupuestos.PresupuestoBase;
-import org.uv.spendify.DTOs.presupuestos.PresupuestoRegistrado;
-import org.uv.spendify.DTOs.presupuestos_det.DetalleNuevo;
+import org.uv.spendify.dtos.presupuestos.PresupuestoNuevo;
+import org.uv.spendify.dtos.presupuestos.PresupuestoBase;
+import org.uv.spendify.dtos.presupuestos.PresupuestoRegistrado;
+import org.uv.spendify.dtos.presupuestos_det.DetalleNuevo;
 import org.uv.spendify.converters.presupuesto.NuevoPresupuestoConverter;
 import org.uv.spendify.converters.presupuesto.PresupuestoRegistradoConverter;
 import org.uv.spendify.exceptions.Exceptions;
 import org.uv.spendify.models.Presupuesto;
 import org.uv.spendify.models.PresupuestoDetalle;
+import org.uv.spendify.models.Usuario;
 import org.uv.spendify.repository.PresupuestoRepository;
 import static org.uv.spendify.validaciones.Validacion.*;
 
@@ -53,8 +55,8 @@ public class PresupuestoService {
         String fechaFin=dateValidation(fech2);
         if((fechaInicio!=null && fechaInicio.equals("Invalid date")==false)
             && (fechaFin!=null && fechaFin.equals("Invalid date")==false)){
-            Date f1=StringtoDate(fechaInicio);
-            Date f2=StringtoDate(fechaFin);
+            Date f1=stringtoDate(fechaInicio);
+            Date f2=stringtoDate(fechaFin);
             if(DAYS.between(f1.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                     f2.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())!=30){
                 throw new Exceptions("Invalid date range.", HttpStatus.CONFLICT);
@@ -88,14 +90,17 @@ public class PresupuestoService {
     
     @Transactional
     public PresupuestoRegistrado savePresupuesto(PresupuestoNuevo nuevo){
-        if(userService.userbyId(nuevo.getIdUsuario())!=null){
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario u=userService.userbyEmail(email);
+        if(u!=null){
+            nuevo.setIdUsuario(u.getIdUsuario());
             if(montoValidation(nuevo.getMontoTotal())){
                 fechas(nuevo.getFechaInicio(), nuevo.getFechaFin());
                 nuevo.setFechaInicio(dateValidation(nuevo.getFechaInicio()));
                 nuevo.setFechaFin(dateValidation(nuevo.getFechaFin()));
                 monto(nuevo.getDetalles(), nuevo.getMontoTotal());
                 tipoDetalle(nuevo.getDetalles());
-                Presupuesto p=nuevoPresupuestoConverter.DTOtoEntity(nuevo);
+                Presupuesto p=nuevoPresupuestoConverter.dtotoEntity(nuevo);
                 p=presupuestoRepository.save(p);
                 List<PresupuestoDetalle> lista=p.getDetalles();
                 for(int i=0; i<lista.size(); i++){
@@ -109,7 +114,7 @@ public class PresupuestoService {
                     lista.set(i,pd);
                 }
                 p=presupuestoRepository.save(p);
-                return presupuestoResgistradoConverter.EntitytoDTO(p);
+                return presupuestoResgistradoConverter.entitytoDTO(p);
             }else{
                 throw new Exceptions("Out of economic range.", HttpStatus.CONFLICT);
             }
@@ -119,37 +124,46 @@ public class PresupuestoService {
     }
     
     public boolean updatePresupuesto(PresupuestoBase nuevo, long id){
-        Optional<Presupuesto> pre=presupuestoRepository.findById(id);
-        if(!pre.isEmpty()){
-            Presupuesto p=pre.get();
-            if(montoValidation(nuevo.getMontoTotal())){
-                fechas(nuevo.getFechaInicio(), nuevo.getFechaFin());
-                nuevo.setFechaInicio(dateValidation(nuevo.getFechaInicio()));
-                nuevo.setFechaFin(dateValidation(nuevo.getFechaFin()));
-                BigDecimal suma=new BigDecimal(0);
-                for(PresupuestoDetalle pd:p.getDetalles()){
-                    suma=suma.add(pd.getMonto());
+        boolean pase=false;
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario u=userService.userbyEmail(email);
+        List<Presupuesto> presupuestos=u.getPresupuestos();
+        if(presupuestos!=null){
+            Optional<Presupuesto> pre=presupuestoRepository.findById(id);
+            if(!pre.isEmpty()){
+                Presupuesto p=pre.get();
+                if(presupuestos.contains(p)){
+                    if(montoValidation(nuevo.getMontoTotal())){
+                        fechas(nuevo.getFechaInicio(), nuevo.getFechaFin());
+                        nuevo.setFechaInicio(dateValidation(nuevo.getFechaInicio()));
+                        nuevo.setFechaFin(dateValidation(nuevo.getFechaFin()));
+                        BigDecimal suma=new BigDecimal(0);
+                        for(PresupuestoDetalle pd:p.getDetalles()){
+                            suma=suma.add(pd.getMonto());
+                        }
+                        if(suma.compareTo(nuevo.getMontoTotal())<=0){
+                            p.setFechaFin(new java.sql.Date(stringtoDate(nuevo.getFechaFin()).getTime()));
+                            p.setFechaInicio(new java.sql.Date(stringtoDate(nuevo.getFechaInicio()).getTime()));
+                            p.setMontoTotal(nuevo.getMontoTotal());
+                            presupuestoRepository.save(p);
+                            pase=true;
+                        }else{
+                            throw new Exceptions("Yours Detalle economics are more than your presupuesto.", HttpStatus.CONFLICT);
+                        }
+                    }else{
+                        throw new Exceptions("Out of economic range.", HttpStatus.CONFLICT);
+                    }
                 }
-                if(suma.compareTo(nuevo.getMontoTotal())<=0){
-                    p.setFechaFin(new java.sql.Date(StringtoDate(nuevo.getFechaFin()).getTime()));
-                    p.setFechaInicio(new java.sql.Date(StringtoDate(nuevo.getFechaInicio()).getTime()));
-                    p.setMontoTotal(nuevo.getMontoTotal());
-                    presupuestoRepository.save(p);
-                    return true;
-                }else{
-                    throw new Exceptions("Yours Detalle economics are more than your presupuesto.", HttpStatus.CONFLICT);
-                }
-            }else{
-                throw new Exceptions("Out of economic range.", HttpStatus.CONFLICT);
             }
-        }else{
-            return false;
         }
+        return pase;
     }
     
-    public boolean deleteAllPresupuestoByUser(long id){
-        if(userService.userbyId(id)!=null){
-            for(Presupuesto p:userService.userbyId(id).getPresupuestos()){
+    public boolean deleteAllPresupuestoByUser(){
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario u=userService.userbyEmail(email);
+        if(u!=null){
+            for(Presupuesto p:u.getPresupuestos()){
                 presupuestoRepository.delete(p);
             }
             return true;
@@ -159,29 +173,47 @@ public class PresupuestoService {
     }
     
     public boolean deletePresupuesto(long id){
-        Optional<Presupuesto>p=presupuestoRepository.findById(id);
-        if(!p.isEmpty()){
-            presupuestoRepository.delete(p.get());
-            return true;
-        }else{
-            return false;
+        boolean pase=false;
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario u=userService.userbyEmail(email);
+        List<Presupuesto> presupuestos=u.getPresupuestos();
+        if(presupuestos!=null){
+            Optional<Presupuesto>p=presupuestoRepository.findById(id);
+            if(!p.isEmpty()){
+                Presupuesto presu=p.get();
+                if(presupuestos.contains(presu)){
+                    presupuestoRepository.delete(presu);
+                    pase = true;
+                }
+            }
         }
+        return pase;
     }
     
-    public List<PresupuestoRegistrado> getAllBudgetByUser(long id){
-        if(userService.userbyId(id)!=null){
-            return presupuestoResgistradoConverter.EntityListtoDTOList(userService.userbyId(id).getPresupuestos());
+    public List<PresupuestoRegistrado> getAllBudgetByUser(){
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario u=userService.userbyEmail(email);
+        if(u!=null){
+            return presupuestoResgistradoConverter.entityListtoDTOList(u.getPresupuestos());
         }else{
             return null;
         }
     }
     
     public PresupuestoRegistrado getBudgetById(long id){
-        Optional<Presupuesto> p=presupuestoRepository.findById(id);
-        if(!p.isEmpty()){
-            return presupuestoResgistradoConverter.EntitytoDTO(p.get());
-        }else{
-            return null;
+        PresupuestoRegistrado pr=null;
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario u=userService.userbyEmail(email);
+        List<Presupuesto> presupuestos=u.getPresupuestos();
+        if(presupuestos!=null){
+            Optional<Presupuesto> p=presupuestoRepository.findById(id);
+            if(!p.isEmpty()){
+                Presupuesto presu=p.get();
+                if(presupuestos.contains(presu)){
+                    pr = presupuestoResgistradoConverter.entitytoDTO(presu);
+                }
+            }
         }
+        return pr;
     }
 }

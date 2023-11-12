@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.uv.spendify.DTOs.usuarios.UsuarioAcces;
-import org.uv.spendify.DTOs.usuarios.UsuarioLogin;
-import org.uv.spendify.DTOs.usuarios.UsuarioNewAccount;
-import org.uv.spendify.DTOs.usuarios.UsuarioPassword;
+import org.uv.spendify.dtos.usuarios.UsuarioAcces;
+import org.uv.spendify.dtos.usuarios.UsuarioNewAccount;
+import org.uv.spendify.dtos.usuarios.UsuarioPassword;
+import org.uv.spendify.dtos.usuarios.UsuarioPasswordBase;
 import org.uv.spendify.exceptions.Exceptions;
 import org.uv.spendify.services.UsuarioService;
 
@@ -54,9 +53,10 @@ public class UsuarioController {
         }
     }
     
-    @PutMapping("/updateAccount/{id}")
-    public ResponseEntity<Void> updateAccount(@PathVariable("id") long id,@RequestBody UsuarioAcces usuario){
-        UsuarioAcces u=service.updateAccount(usuario, id);
+    @PutMapping("/updateAccount")
+    public ResponseEntity<Void> updateAccount(@RequestBody UsuarioAcces usuario){
+        
+        UsuarioAcces u=service.updateAccount(usuario);
         if(u==null){
             return ResponseEntity.notFound().build();
         }else{
@@ -64,33 +64,34 @@ public class UsuarioController {
         }
     }
     
-    @DeleteMapping("/deleteAccount/{id}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable long id){
-        boolean response=service.deleteAccount(id);
-        if(response==false){
-            return ResponseEntity.notFound().build();
-        }else{
+    @DeleteMapping("/deleteAccount")
+    public ResponseEntity<Void> deleteAccount(){
+        boolean response=service.deleteAccount();
+        if(response){
             return ResponseEntity.noContent().build();
+        }else{
+            return ResponseEntity.notFound().build();
         }
     }
     
-    @PutMapping("/changePassword/{id}")
-    public ResponseEntity<Void> changePassword(@PathVariable("id") long id, @RequestBody UsuarioPassword passwords){
-        boolean response=service.changePassword(passwords, id);
-        if(response==false){
-            return ResponseEntity.notFound().build();
-        }else{
+    @PutMapping("/changePassword")
+    public ResponseEntity<Void> changePassword(@RequestBody UsuarioPassword passwords){
+        boolean response=service.changePassword(passwords);
+        if(response){
             return ResponseEntity.noContent().build();
+        }else{
+            return ResponseEntity.notFound().build();
         }
     }
     
-    @PostMapping("/login")
-    public ResponseEntity<UsuarioAcces> login(@RequestBody UsuarioLogin usuario){
-        UsuarioAcces acceso=service.login(usuario);
-        if(acceso!=null){
-            return ResponseEntity.ok(acceso);
+    @PutMapping("/changePasswordWithKey/{id}")
+    public ResponseEntity<Void> changePasswordWithKey(@PathVariable("id") long id, @RequestBody UsuarioPasswordBase passwords){
+        boolean response=service.changePasswordWithKey(passwords, id);
+        if(response){
+            return ResponseEntity.noContent().build();
         }else{
-            throw new Exceptions("Email or Password are incorrect.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
+
 }

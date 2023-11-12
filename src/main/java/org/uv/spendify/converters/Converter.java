@@ -10,10 +10,10 @@ import java.util.List;
  *
  * @author juan
  */
-public interface Converter<Entity, DTO> {
-    public Entity DTOtoEntity(DTO dto);
-    public DTO EntitytoDTO(Entity entity);
+public interface Converter<T, S> {
+    public T dtotoEntity(S dto);
+    public S entitytoDTO(T entity);
     
-    public List<Entity> DTOListtoEntityList(List<DTO> dtoList);
-    public List<DTO> EntityListtoDTOList(List<Entity> entityList);
+    public List<T> dtoListtoEntityList(List<S> dtoList);
+    public List<S> entityListtoDTOList(List<T> entityList);
 }

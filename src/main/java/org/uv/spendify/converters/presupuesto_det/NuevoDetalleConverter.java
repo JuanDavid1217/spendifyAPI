@@ -7,7 +7,7 @@ package org.uv.spendify.converters.presupuesto_det;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-import org.uv.spendify.DTOs.presupuestos_det.DetalleNuevo;
+import org.uv.spendify.dtos.presupuestos_det.DetalleNuevo;
 import org.uv.spendify.converters.Converter;
 import org.uv.spendify.models.PresupuestoDetalle;
 import org.uv.spendify.models.TipoGasto;
@@ -20,7 +20,7 @@ import org.uv.spendify.models.TipoGasto;
 public class NuevoDetalleConverter implements Converter<PresupuestoDetalle, DetalleNuevo>{
 
     @Override
-    public PresupuestoDetalle DTOtoEntity(DetalleNuevo dto) {
+    public PresupuestoDetalle dtotoEntity(DetalleNuevo dto) {
         PresupuestoDetalle nuevo=new PresupuestoDetalle();
         nuevo.setMonto(dto.getMonto());
         TipoGasto tipo=new TipoGasto();
@@ -30,7 +30,7 @@ public class NuevoDetalleConverter implements Converter<PresupuestoDetalle, Deta
     }
 
     @Override
-    public DetalleNuevo EntitytoDTO(PresupuestoDetalle entity) {
+    public DetalleNuevo entitytoDTO(PresupuestoDetalle entity) {
         DetalleNuevo nuevo=new DetalleNuevo();
         nuevo.setIdTipo(entity.getTipo().getIdTipoGasto());
         nuevo.setMonto(entity.getMonto());
@@ -38,13 +38,13 @@ public class NuevoDetalleConverter implements Converter<PresupuestoDetalle, Deta
     }
 
     @Override
-    public List<PresupuestoDetalle> DTOListtoEntityList(List<DetalleNuevo> dtoList) {
-        return dtoList.stream().map(this::DTOtoEntity).collect(Collectors.toList());
+    public List<PresupuestoDetalle> dtoListtoEntityList(List<DetalleNuevo> dtoList) {
+        return dtoList.stream().map(this::dtotoEntity).collect(Collectors.toList());
     }
 
     @Override
-    public List<DetalleNuevo> EntityListtoDTOList(List<PresupuestoDetalle> entityList) {
-        return entityList.stream().map(this::EntitytoDTO).collect(Collectors.toList());
+    public List<DetalleNuevo> entityListtoDTOList(List<PresupuestoDetalle> entityList) {
+        return entityList.stream().map(this::entitytoDTO).collect(Collectors.toList());
     }
     
 }

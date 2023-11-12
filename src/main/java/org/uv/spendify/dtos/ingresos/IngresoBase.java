@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.uv.spendify.DTOs.ingresos;
+package org.uv.spendify.dtos.ingresos;
 
 import java.math.BigDecimal;
 
@@ -14,7 +14,7 @@ public class IngresoBase {
     private String fecha;
     private BigDecimal monto;
     private String descripcion;
-    private Long id_tipo;
+    private Long idTipo;
 
     public String getFecha() {
         return fecha;
@@ -40,12 +40,12 @@ public class IngresoBase {
         this.descripcion = descripcion;
     }
 
-    public Long getId_tipo() {
-        return id_tipo;
+    public Long getIdTipo() {
+        return idTipo;
     }
 
-    public void setId_tipo(Long id_tipo) {
-        this.id_tipo = id_tipo;
+    public void setIdTipo(Long idTipo) {
+        this.idTipo = idTipo;
     }
     
     

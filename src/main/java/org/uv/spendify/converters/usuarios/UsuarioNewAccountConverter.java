@@ -7,7 +7,7 @@ package org.uv.spendify.converters.usuarios;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-import org.uv.spendify.DTOs.usuarios.UsuarioNewAccount;
+import org.uv.spendify.dtos.usuarios.UsuarioNewAccount;
 import org.uv.spendify.converters.Converter;
 import org.uv.spendify.models.Usuario;
 
@@ -19,7 +19,7 @@ import org.uv.spendify.models.Usuario;
 public class UsuarioNewAccountConverter implements Converter<Usuario, UsuarioNewAccount>{
 
     @Override
-    public Usuario DTOtoEntity(UsuarioNewAccount dto) {
+    public Usuario dtotoEntity(UsuarioNewAccount dto) {
         Usuario usuario=new Usuario();
         usuario.setEmail(dto.getEmail());
         usuario.setEdad(dto.getEdad());
@@ -32,7 +32,7 @@ public class UsuarioNewAccountConverter implements Converter<Usuario, UsuarioNew
     }
 
     @Override
-    public UsuarioNewAccount EntitytoDTO(Usuario entity) {
+    public UsuarioNewAccount entitytoDTO(Usuario entity) {
         UsuarioNewAccount usuario=new UsuarioNewAccount();
         usuario.setEdad(entity.getEdad());
         usuario.setEmail(entity.getEmail());
@@ -45,13 +45,13 @@ public class UsuarioNewAccountConverter implements Converter<Usuario, UsuarioNew
     }
 
     @Override
-    public List<Usuario> DTOListtoEntityList(List<UsuarioNewAccount> dtoList) {
-        return dtoList.stream().map(this::DTOtoEntity).collect(Collectors.toList());
+    public List<Usuario> dtoListtoEntityList(List<UsuarioNewAccount> dtoList) {
+        return dtoList.stream().map(this::dtotoEntity).collect(Collectors.toList());
     }
 
     @Override
-    public List<UsuarioNewAccount> EntityListtoDTOList(List<Usuario> entityList) {
-        return entityList.stream().map(this::EntitytoDTO).collect(Collectors.toList());
+    public List<UsuarioNewAccount> entityListtoDTOList(List<Usuario> entityList) {
+        return entityList.stream().map(this::entitytoDTO).collect(Collectors.toList());
     }
     
 }

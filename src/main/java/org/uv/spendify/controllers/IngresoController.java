@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.uv.spendify.DTOs.ingresos.IngresoNuevo;
-import org.uv.spendify.DTOs.ingresos.IngresoRegistrado;
+import org.uv.spendify.dtos.ingresos.IngresoNuevo;
+import org.uv.spendify.dtos.ingresos.IngresoRegistrado;
 import org.uv.spendify.services.IngresoService;
 
 /**
@@ -65,9 +65,9 @@ public class IngresoController {
         }
     }
     
-    @DeleteMapping("/deleteAllIncomes/{id}")
-    public ResponseEntity<Void> deleteAllIncomesByUser(@PathVariable("id") long id){
-        boolean pase=service.deleteAllIncomesByUser(id);
+    @DeleteMapping("/deleteAllIncomesByUser")
+    public ResponseEntity<Void> deleteAllIncomesByUser(){
+        boolean pase=service.deleteAllIncomesByUser();
         if(pase){
             return ResponseEntity.noContent().build();
         }else{
@@ -75,9 +75,10 @@ public class IngresoController {
         }
     }
     
-    @GetMapping("/allIncomesByUser/{id}")
-    public ResponseEntity<List<IngresoRegistrado>> getAllIncomesByUser(@PathVariable("id") long id){
-        List<IngresoRegistrado> incomes=service.getAllIncomesByUser(id);
+    @GetMapping("/allIncomesByUser")
+    public ResponseEntity<List<IngresoRegistrado>> getAllIncomesByUser(){
+        List<IngresoRegistrado> incomes=service.getAllIncomesByUser();
         return ResponseEntity.ok().body(incomes);
     }
+    
 }

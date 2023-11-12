@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -56,6 +57,9 @@ public class Usuario implements Serializable{
     
     @OneToMany(mappedBy="usuario", cascade={CascadeType.REMOVE})
     private List<Ingreso> ingresos;
+    
+    @OneToOne(mappedBy="usuario", cascade={CascadeType.REMOVE}, fetch=FetchType.LAZY)
+    private Token token;
     
 
     public long getIdUsuario() {
@@ -137,8 +141,14 @@ public class Usuario implements Serializable{
     public void setApellidoMaterno(String apellidoMaterno) {
         this.apellidoMaterno = apellidoMaterno;
     }
-    
 
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
+    }
     
     
 }
