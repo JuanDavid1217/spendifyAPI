@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.uv.spendify.DTOs.gastos.GastoNuevo;
-import org.uv.spendify.DTOs.gastos.GastoRegistrado;
+import org.uv.spendify.dtos.gastos.GastoNuevo;
+import org.uv.spendify.dtos.gastos.GastoRegistrado;
 import org.uv.spendify.exceptions.Exceptions;
 import org.uv.spendify.services.GastoService;
 

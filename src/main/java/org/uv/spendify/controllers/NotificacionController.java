@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.uv.spendify.DTOs.notificaciones.NotificacionNueva;
-import org.uv.spendify.DTOs.notificaciones.NotificacionRegistrada;
+import org.uv.spendify.dtos.notificaciones.NotificacionNueva;
+import org.uv.spendify.dtos.notificaciones.NotificacionRegistrada;
 import org.uv.spendify.exceptions.Exceptions;
 import org.uv.spendify.services.NotificacionService;
 
@@ -32,6 +32,7 @@ import org.uv.spendify.services.NotificacionService;
 @RequestMapping("/notificationsByBudgetDetail")
 public class NotificacionController {
     private final NotificacionService service;
+    private String message="Detail Not Found";
     
     public NotificacionController(NotificacionService service){
         this.service=service;
@@ -46,7 +47,7 @@ public class NotificacionController {
         
         return ResponseEntity.created(ubication).body(notificacion);
         }else{
-            throw new Exceptions("Detail not found.", HttpStatus.NOT_FOUND);
+            throw new Exceptions(message, HttpStatus.NOT_FOUND);
         }
     }
     
@@ -56,7 +57,7 @@ public class NotificacionController {
         if(notificacion!=null){
             return ResponseEntity.ok(notificacion);
         }else{
-            throw new Exceptions("Detail not found.", HttpStatus.NOT_FOUND);
+            throw new Exceptions(message, HttpStatus.NOT_FOUND);
         }
     }
     
@@ -66,7 +67,7 @@ public class NotificacionController {
         if(respuesta){
             return ResponseEntity.noContent().build();
         }else{
-            throw new Exceptions("Detail not found.", HttpStatus.NOT_FOUND);
+            throw new Exceptions(message, HttpStatus.NOT_FOUND);
         }
     }
     
@@ -76,7 +77,7 @@ public class NotificacionController {
         if(respuesta){
             return ResponseEntity.noContent().build();
         }else{
-            throw new Exceptions("Detail not found.", HttpStatus.NOT_FOUND);
+            throw new Exceptions(message, HttpStatus.NOT_FOUND);
         }
     }
 }

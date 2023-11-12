@@ -7,12 +7,12 @@ package org.uv.spendify.converters.gastos;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-import org.uv.spendify.DTOs.gastos.GastoRegistrado;
+import org.uv.spendify.dtos.gastos.GastoRegistrado;
 import org.uv.spendify.converters.Converter;
 import org.uv.spendify.models.Gasto;
 import org.uv.spendify.models.PresupuestoDetalle;
-import static org.uv.spendify.validaciones.Validacion.DatetoSring;
-import static org.uv.spendify.validaciones.Validacion.StringtoDate;
+import static org.uv.spendify.validaciones.Validacion.datetoSring;
+import static org.uv.spendify.validaciones.Validacion.stringtoDate;
 
 /**
  *
@@ -22,11 +22,11 @@ import static org.uv.spendify.validaciones.Validacion.StringtoDate;
 public class GastoRegistradoConverter implements Converter<Gasto, GastoRegistrado>{
 
     @Override
-    public Gasto DTOtoEntity(GastoRegistrado dto) {
+    public Gasto dtotoEntity(GastoRegistrado dto) {
         Gasto gasto=new Gasto();
         gasto.setIdGasto(dto.getIdGasto());
         gasto.setMonto(dto.getMonto());
-        gasto.setFecha(new java.sql.Date(StringtoDate(dto.getFecha()).getTime()));
+        gasto.setFecha(new java.sql.Date(stringtoDate(dto.getFecha()).getTime()));
         gasto.setDescripcion(dto.getDescripcion());
         PresupuestoDetalle detalle=new PresupuestoDetalle();
         detalle.setIdPresupuestoDetalle(dto.getIdDetalle());
@@ -35,10 +35,10 @@ public class GastoRegistradoConverter implements Converter<Gasto, GastoRegistrad
     }
 
     @Override
-    public GastoRegistrado EntitytoDTO(Gasto entity) {
+    public GastoRegistrado entitytoDTO(Gasto entity) {
         GastoRegistrado gasto=new GastoRegistrado();
         gasto.setDescripcion(entity.getDescripcion());
-        gasto.setFecha(DatetoSring(entity.getFecha()));
+        gasto.setFecha(datetoSring(entity.getFecha()));
         gasto.setIdDetalle(entity.getDetalle().getIdPresupuestoDetalle());
         gasto.setIdGasto(entity.getIdGasto());
         gasto.setMonto(entity.getMonto());
@@ -46,13 +46,13 @@ public class GastoRegistradoConverter implements Converter<Gasto, GastoRegistrad
     }
 
     @Override
-    public List<Gasto> DTOListtoEntityList(List<GastoRegistrado> dtoList) {
-        return dtoList.stream().map(this::DTOtoEntity).collect(Collectors.toList());
+    public List<Gasto> dtoListtoEntityList(List<GastoRegistrado> dtoList) {
+        return dtoList.stream().map(this::dtotoEntity).collect(Collectors.toList());
     }
 
     @Override
-    public List<GastoRegistrado> EntityListtoDTOList(List<Gasto> entityList) {
-        return entityList.stream().map(this::EntitytoDTO).collect(Collectors.toList());
+    public List<GastoRegistrado> entityListtoDTOList(List<Gasto> entityList) {
+        return entityList.stream().map(this::entitytoDTO).collect(Collectors.toList());
     }
     
 }

@@ -2,15 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.uv.spendify.DTOs.usuarios;
+package org.uv.spendify.dtos.usuarios;
 
 /**
  *
  * @author juan
  */
-public class UsuarioPassword {
+public class UsuarioPassword extends UsuarioPasswordBase{
     private String oldPasswaord;
-    private String newPassword;
+    
+    public UsuarioPassword(){
+        super();
+    }
 
     public String getOldPasswaord() {
         return oldPasswaord;
@@ -18,14 +21,6 @@ public class UsuarioPassword {
 
     public void setOldPasswaord(String oldPasswaord) {
         this.oldPasswaord = oldPasswaord;
-    }
-
-    public String getNewPassword() {
-        return newPassword;
-    }
-
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
     }
     
     

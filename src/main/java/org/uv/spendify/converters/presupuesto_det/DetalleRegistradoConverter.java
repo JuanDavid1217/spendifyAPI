@@ -7,7 +7,7 @@ package org.uv.spendify.converters.presupuesto_det;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-import org.uv.spendify.DTOs.presupuestos_det.DetalleRegistrado;
+import org.uv.spendify.dtos.presupuestos_det.DetalleRegistrado;
 import org.uv.spendify.converters.Converter;
 import org.uv.spendify.models.Presupuesto;
 import org.uv.spendify.models.PresupuestoDetalle;
@@ -21,7 +21,7 @@ import org.uv.spendify.models.TipoGasto;
 public class DetalleRegistradoConverter implements Converter<PresupuestoDetalle, DetalleRegistrado>{
 
     @Override
-    public PresupuestoDetalle DTOtoEntity(DetalleRegistrado dto) {
+    public PresupuestoDetalle dtotoEntity(DetalleRegistrado dto) {
         PresupuestoDetalle nuevo=new PresupuestoDetalle();
         nuevo.setIdPresupuestoDetalle(dto.getIdPresupuestoDetalle());
         nuevo.setMonto(dto.getMonto());
@@ -35,7 +35,7 @@ public class DetalleRegistradoConverter implements Converter<PresupuestoDetalle,
     }
 
     @Override
-    public DetalleRegistrado EntitytoDTO(PresupuestoDetalle entity) {
+    public DetalleRegistrado entitytoDTO(PresupuestoDetalle entity) {
         DetalleRegistrado nuevo=new DetalleRegistrado();
         nuevo.setIdPresupuesto(entity.getPresupuesto().getIdPresupuesto());
         nuevo.setIdPresupuestoDetalle(entity.getIdPresupuestoDetalle());
@@ -45,13 +45,13 @@ public class DetalleRegistradoConverter implements Converter<PresupuestoDetalle,
     }
 
     @Override
-    public List<PresupuestoDetalle> DTOListtoEntityList(List<DetalleRegistrado> dtoList) {
-        return dtoList.stream().map(this::DTOtoEntity).collect(Collectors.toList());
+    public List<PresupuestoDetalle> dtoListtoEntityList(List<DetalleRegistrado> dtoList) {
+        return dtoList.stream().map(this::dtotoEntity).collect(Collectors.toList());
     }
 
     @Override
-    public List<DetalleRegistrado> EntityListtoDTOList(List<PresupuestoDetalle> entityList) {
-        return entityList.stream().map(this::EntitytoDTO).collect(Collectors.toList());
+    public List<DetalleRegistrado> entityListtoDTOList(List<PresupuestoDetalle> entityList) {
+        return entityList.stream().map(this::entitytoDTO).collect(Collectors.toList());
     }
     
 }

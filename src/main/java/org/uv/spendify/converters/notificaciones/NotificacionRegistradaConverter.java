@@ -7,7 +7,7 @@ package org.uv.spendify.converters.notificaciones;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-import org.uv.spendify.DTOs.notificaciones.NotificacionRegistrada;
+import org.uv.spendify.dtos.notificaciones.NotificacionRegistrada;
 import org.uv.spendify.converters.Converter;
 import org.uv.spendify.models.Notificacion;
 import org.uv.spendify.models.PresupuestoDetalle;
@@ -20,7 +20,7 @@ import org.uv.spendify.models.PresupuestoDetalle;
 public class NotificacionRegistradaConverter implements Converter<Notificacion, NotificacionRegistrada>{
 
     @Override
-    public Notificacion DTOtoEntity(NotificacionRegistrada dto) {
+    public Notificacion dtotoEntity(NotificacionRegistrada dto) {
         Notificacion nueva=new Notificacion();
         nueva.setDescripcion(dto.getDescripcion());
         PresupuestoDetalle detalle=new PresupuestoDetalle();
@@ -32,7 +32,7 @@ public class NotificacionRegistradaConverter implements Converter<Notificacion, 
     }
 
     @Override
-    public NotificacionRegistrada EntitytoDTO(Notificacion entity) {
+    public NotificacionRegistrada entitytoDTO(Notificacion entity) {
         NotificacionRegistrada nueva=new NotificacionRegistrada();
         nueva.setDescripcion(entity.getDescripcion());
         nueva.setIdDetalle(entity.getDetalle().getIdPresupuestoDetalle());
@@ -42,12 +42,12 @@ public class NotificacionRegistradaConverter implements Converter<Notificacion, 
     }
 
     @Override
-    public List<Notificacion> DTOListtoEntityList(List<NotificacionRegistrada> dtoList) {
-        return dtoList.stream().map(this::DTOtoEntity).collect(Collectors.toList());    }
+    public List<Notificacion> dtoListtoEntityList(List<NotificacionRegistrada> dtoList) {
+        return dtoList.stream().map(this::dtotoEntity).collect(Collectors.toList());    }
 
     @Override
-    public List<NotificacionRegistrada> EntityListtoDTOList(List<Notificacion> entityList) {
-        return entityList.stream().map(this::EntitytoDTO).collect(Collectors.toList());
+    public List<NotificacionRegistrada> entityListtoDTOList(List<Notificacion> entityList) {
+        return entityList.stream().map(this::entitytoDTO).collect(Collectors.toList());
     }
     
 }

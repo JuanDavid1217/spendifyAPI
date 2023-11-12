@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
@@ -69,5 +70,11 @@ public class ValidacionTest {
         assertEquals(Validacion.umbralValidation(-5.32), false);
         assertEquals(Validacion.umbralValidation(100.32), false);
         assertEquals(Validacion.umbralValidation(100), true);
+    }
+    
+    @Test
+    void checkIsTokenValid(){
+        assertEquals(Validacion.isTokenValid(LocalDateTime.now()), true);
+        assertEquals(Validacion.isTokenValid(LocalDateTime.parse("2023-11-10T02:09:43.867902")), false);
     }
 }
