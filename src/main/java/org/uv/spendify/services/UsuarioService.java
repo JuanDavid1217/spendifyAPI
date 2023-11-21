@@ -20,7 +20,7 @@ import org.uv.spendify.exceptions.Exceptions;
 import org.uv.spendify.models.Usuario;
 import org.uv.spendify.repository.UsuarioRepository;
 import org.uv.spendify.security.JWTUtils;
-import static org.uv.spendify.validaciones.Validacion.*;
+import static org.uv.spendify.validations.Validation.*;
 
 /**
  *
@@ -157,19 +157,11 @@ public class UsuarioService {
         }
     }
     
-    public UsuarioAcces login(UsuarioLogin usuario){
-        Usuario u=repositorio.findByEmail(usuario.getEmail());
+    public UsuarioAcces myInfo(){
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario u=repositorio.findByEmail(email);
         if(u!=null){
-            try{
-                String password=desencriptar(u.getPassword());
-                if(usuario.getPassword().equals(password)){
-                    return usuarioAccessConverter.entitytoDTO(u);
-                }else{
-                    return null;
-                }
-            }catch(Exception ex){
-                throw new Exceptions("InternalServerError", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return usuarioAccessConverter.entitytoDTO(u);
         }else{
             return null;
         }

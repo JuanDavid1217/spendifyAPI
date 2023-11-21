@@ -14,18 +14,18 @@ import org.uv.spendify.converters.presupuesto_det.NuevoDetalleConverter;
 import org.uv.spendify.models.Presupuesto;
 import org.uv.spendify.models.PresupuestoDetalle;
 import org.uv.spendify.models.Usuario;
-import static org.uv.spendify.validaciones.Validacion.stringtoDate;
-import static org.uv.spendify.validaciones.Validacion.datetoSring;
+import static org.uv.spendify.validations.Validation.stringtoDate;
+import static org.uv.spendify.validations.Validation.datetoSring;
 
 /**
  *
  * @author juan
  */
 @Component
-public class NuevoPresupuestoConverter implements Converter<Presupuesto, PresupuestoNuevo>{
+public class PresupuestoNuevoConverter implements Converter<Presupuesto, PresupuestoNuevo>{
     private final NuevoDetalleConverter detalleConverter;
     
-    public NuevoPresupuestoConverter(NuevoDetalleConverter detalleConverter){
+    public PresupuestoNuevoConverter(NuevoDetalleConverter detalleConverter){
         this.detalleConverter=detalleConverter;
     }
     

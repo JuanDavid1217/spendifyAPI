@@ -22,9 +22,9 @@ import org.uv.spendify.models.Gasto;
 import org.uv.spendify.models.PresupuestoDetalle;
 import org.uv.spendify.repository.GastoRepository;
 import org.uv.spendify.repository.PresupuestoDetalleRepository;
-import static org.uv.spendify.validaciones.Validacion.stringtoDate;
-import static org.uv.spendify.validaciones.Validacion.datetoSring;
-import static org.uv.spendify.validaciones.Validacion.dateValidation;
+import static org.uv.spendify.validations.Validation.stringtoDate;
+import static org.uv.spendify.validations.Validation.datetoSring;
+import static org.uv.spendify.validations.Validation.dateValidation;
 
 /**
  *

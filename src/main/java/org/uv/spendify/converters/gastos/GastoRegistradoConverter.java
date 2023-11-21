@@ -11,8 +11,8 @@ import org.uv.spendify.dtos.gastos.GastoRegistrado;
 import org.uv.spendify.converters.Converter;
 import org.uv.spendify.models.Gasto;
 import org.uv.spendify.models.PresupuestoDetalle;
-import static org.uv.spendify.validaciones.Validacion.datetoSring;
-import static org.uv.spendify.validaciones.Validacion.stringtoDate;
+import static org.uv.spendify.validations.Validation.datetoSring;
+import static org.uv.spendify.validations.Validation.stringtoDate;
 
 /**
  *

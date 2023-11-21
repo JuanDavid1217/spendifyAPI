@@ -18,14 +18,14 @@ import org.uv.spendify.dtos.presupuestos.PresupuestoNuevo;
 import org.uv.spendify.dtos.presupuestos.PresupuestoBase;
 import org.uv.spendify.dtos.presupuestos.PresupuestoRegistrado;
 import org.uv.spendify.dtos.presupuestos_det.DetalleNuevo;
-import org.uv.spendify.converters.presupuesto.NuevoPresupuestoConverter;
+import org.uv.spendify.converters.presupuesto.PresupuestoNuevoConverter;
 import org.uv.spendify.converters.presupuesto.PresupuestoRegistradoConverter;
 import org.uv.spendify.exceptions.Exceptions;
 import org.uv.spendify.models.Presupuesto;
 import org.uv.spendify.models.PresupuestoDetalle;
 import org.uv.spendify.models.Usuario;
 import org.uv.spendify.repository.PresupuestoRepository;
-import static org.uv.spendify.validaciones.Validacion.*;
+import static org.uv.spendify.validations.Validation.*;
 
 /**
  *
@@ -34,13 +34,13 @@ import static org.uv.spendify.validaciones.Validacion.*;
 @Service
 public class PresupuestoService {
     private final PresupuestoRepository presupuestoRepository;
-    private final NuevoPresupuestoConverter nuevoPresupuestoConverter;
+    private final PresupuestoNuevoConverter nuevoPresupuestoConverter;
     private final PresupuestoRegistradoConverter presupuestoResgistradoConverter;
     private final UsuarioService userService;
     private final TipoGastoService tipoService;
     
     public PresupuestoService(PresupuestoRepository presupuestoRepository,
-            NuevoPresupuestoConverter nuevoPresupuestoConverter,
+            PresupuestoNuevoConverter nuevoPresupuestoConverter,
             PresupuestoRegistradoConverter presupuestoRegistradoConverter,
             UsuarioService userService, TipoGastoService tipoService){
         this.presupuestoRepository=presupuestoRepository;

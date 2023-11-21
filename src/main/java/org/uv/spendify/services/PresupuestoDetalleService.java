@@ -21,7 +21,7 @@ import org.uv.spendify.models.Presupuesto;
 import org.uv.spendify.models.PresupuestoDetalle;
 import org.uv.spendify.repository.PresupuestoDetalleRepository;
 import org.uv.spendify.repository.PresupuestoRepository;
-import static org.uv.spendify.validaciones.Validacion.montoValidation;
+import static org.uv.spendify.validations.Validation.montoValidation;
 
 /**
  *

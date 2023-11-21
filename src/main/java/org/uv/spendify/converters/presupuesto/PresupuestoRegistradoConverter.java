@@ -14,8 +14,8 @@ import org.uv.spendify.converters.presupuesto_det.DetalleRegistradoConverter;
 import org.uv.spendify.models.Presupuesto;
 import org.uv.spendify.models.PresupuestoDetalle;
 import org.uv.spendify.models.Usuario;
-import static org.uv.spendify.validaciones.Validacion.stringtoDate;
-import static org.uv.spendify.validaciones.Validacion.datetoSring;
+import static org.uv.spendify.validations.Validation.stringtoDate;
+import static org.uv.spendify.validations.Validation.datetoSring;
 
 
 /**
