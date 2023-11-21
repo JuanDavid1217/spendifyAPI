@@ -18,8 +18,8 @@ import org.uv.spendify.exceptions.Exceptions;
 import org.uv.spendify.models.Ingreso;
 import org.uv.spendify.models.Usuario;
 import org.uv.spendify.repository.IngresoRepository;
-import static org.uv.spendify.validaciones.Validacion.montoValidation;
-import static org.uv.spendify.validaciones.Validacion.dateValidation;
+import static org.uv.spendify.validations.Validation.montoValidation;
+import static org.uv.spendify.validations.Validation.dateValidation;
 
 /**
  *

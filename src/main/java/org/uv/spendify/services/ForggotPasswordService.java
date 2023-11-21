@@ -14,7 +14,7 @@ import org.uv.spendify.models.Token;
 import org.uv.spendify.models.Usuario;
 import org.uv.spendify.repository.TokenRepository;
 import org.uv.spendify.repository.UsuarioRepository;
-import static org.uv.spendify.validaciones.Validacion.isTokenValid;
+import static org.uv.spendify.validations.Validation.isTokenValid;
 
 /**
  *

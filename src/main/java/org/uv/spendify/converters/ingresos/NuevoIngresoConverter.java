@@ -14,8 +14,8 @@ import org.uv.spendify.models.Ingreso;
 import org.uv.spendify.models.TipoIngreso;
 import org.uv.spendify.models.Usuario;
 import org.uv.spendify.repository.TipoIngresoRepository;
-import static org.uv.spendify.validaciones.Validacion.stringtoDate;
-import static org.uv.spendify.validaciones.Validacion.datetoSring;
+import static org.uv.spendify.validations.Validation.stringtoDate;
+import static org.uv.spendify.validations.Validation.datetoSring;
 /**
  *
  * @author juan

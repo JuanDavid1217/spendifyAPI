@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.uv.spendify.validaciones;
+package org.uv.spendify.validations;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -26,8 +26,8 @@ import javax.crypto.NoSuchPaddingException;
  *
  * @author juan
  */
-public class Validacion {
-    private Validacion(){};
+public class Validation {
+    private Validation(){};
     
     private static String miVariable="SuperKey12345678";
     private static String encriptationMode="AES";
@@ -60,7 +60,6 @@ public class Validacion {
         claveEncriptacion = sha.digest(claveEncriptacion);
         claveEncriptacion = Arrays.copyOf(claveEncriptacion, 16);
         return new SecretKeySpec(claveEncriptacion, encriptationMode);
-
     }
     
     public static String encriptar(String password) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException{

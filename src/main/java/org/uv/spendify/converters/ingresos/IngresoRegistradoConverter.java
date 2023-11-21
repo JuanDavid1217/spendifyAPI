@@ -13,8 +13,8 @@ import org.uv.spendify.converters.Converter;
 import org.uv.spendify.models.Ingreso;
 import org.uv.spendify.services.TipoIngresoService;
 import org.uv.spendify.services.UsuarioService;
-import static org.uv.spendify.validaciones.Validacion.datetoSring;
-import static org.uv.spendify.validaciones.Validacion.stringtoDate;
+import static org.uv.spendify.validations.Validation.datetoSring;
+import static org.uv.spendify.validations.Validation.stringtoDate;
 
 /**
  *

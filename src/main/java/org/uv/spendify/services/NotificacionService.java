@@ -17,7 +17,7 @@ import org.uv.spendify.models.Notificacion;
 import org.uv.spendify.models.PresupuestoDetalle;
 import org.uv.spendify.repository.NotificacionRepository;
 import org.uv.spendify.repository.PresupuestoDetalleRepository;
-import static org.uv.spendify.validaciones.Validacion.umbralValidation;
+import static org.uv.spendify.validations.Validation.umbralValidation;
 
 /**
  *
