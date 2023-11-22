@@ -30,7 +30,7 @@ import org.uv.spendify.services.UsuarioService;
  * @author juan
  */
 @RestController
-//@CrossOrigin(origins="*", methods={RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@CrossOrigin(origins="*", methods={RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 @RequestMapping("/users")
 public class UsuarioController {
     private final UsuarioService service;
