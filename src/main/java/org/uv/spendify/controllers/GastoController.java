@@ -4,6 +4,7 @@
  */
 package org.uv.spendify.controllers;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -96,5 +97,11 @@ public class GastoController {
         }else{
             throw new Exceptions("Detail not found.", HttpStatus.NOT_FOUND);
         }
+    }
+    
+    @GetMapping("/")
+    public ResponseEntity<BigDecimal> sumOfGastosByUser(){
+        BigDecimal gastos=gastoService.sumOfGastosByUser();
+        return ResponseEntity.ok().body(gastos);
     }
 }

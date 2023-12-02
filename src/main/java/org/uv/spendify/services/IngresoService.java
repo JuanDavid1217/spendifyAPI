@@ -4,6 +4,7 @@
  */
 package org.uv.spendify.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -135,6 +136,21 @@ public class IngresoService {
         if(u!=null){
             List<Ingreso> ingresos=u.getIngresos();
             return registeredIncomeConverter.entityListtoDTOList(ingresos);
+        }else{
+            throw new Exceptions("User not found.", HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    public BigDecimal sumOfIncomesByUser(){
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario u=userService.userbyEmail(email);
+        if(u!=null){
+            List<Ingreso> ingresos=u.getIngresos();
+            BigDecimal total=new BigDecimal(0);
+            for(Ingreso i:ingresos){
+                total.add(i.getMonto());
+            }
+            return total;
         }else{
             throw new Exceptions("User not found.", HttpStatus.NOT_FOUND);
         }

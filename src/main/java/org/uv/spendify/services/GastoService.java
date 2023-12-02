@@ -19,7 +19,9 @@ import org.uv.spendify.converters.gastos.GastoNuevoConverter;
 import org.uv.spendify.converters.gastos.GastoRegistradoConverter;
 import org.uv.spendify.exceptions.Exceptions;
 import org.uv.spendify.models.Gasto;
+import org.uv.spendify.models.Presupuesto;
 import org.uv.spendify.models.PresupuestoDetalle;
+import org.uv.spendify.models.Usuario;
 import org.uv.spendify.repository.GastoRepository;
 import org.uv.spendify.repository.PresupuestoDetalleRepository;
 import static org.uv.spendify.validations.Validation.stringtoDate;
@@ -36,15 +38,18 @@ public class GastoService {
     private final GastoRegistradoConverter gastoRegistradoConverter;
     private final GastoRepository gastoRepository;
     private final PresupuestoDetalleRepository presupuestoDetalleRepository;
+    private final UsuarioService userService;
     
     public GastoService(GastoNuevoConverter gastoNuevoConverter,
             GastoRegistradoConverter gastoRegistradoConverter,
             GastoRepository gastoRepository,
-            PresupuestoDetalleRepository presupuestoDetalleRepository){
+            PresupuestoDetalleRepository presupuestoDetalleRepository,
+            UsuarioService userService){
         this.gastoNuevoConverter=gastoNuevoConverter;
         this.gastoRegistradoConverter=gastoRegistradoConverter;
         this.gastoRepository=gastoRepository;
         this.presupuestoDetalleRepository=presupuestoDetalleRepository;
+        this.userService=userService;
     }
     
     private void fechas(String fech1, String fech2){
@@ -149,6 +154,27 @@ public class GastoService {
             }
         }
         return gastosRegistrados;
+    }
+    
+    public BigDecimal sumOfGastosByUser(){
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario u=userService.userbyEmail(email);
+        if(u!=null){
+            BigDecimal total=new BigDecimal(0);
+            List<Presupuesto> presupuestos=u.getPresupuestos();
+            for(Presupuesto p:presupuestos){
+                List<PresupuestoDetalle> detalles=p.getDetalles();
+                for(PresupuestoDetalle pd:detalles){
+                    List<Gasto> gastos=pd.getGastos();
+                    for(Gasto g:gastos){
+                        total.add(g.getMonto());
+                    }
+                }
+            }
+            return total;
+        }else{
+            throw new Exceptions("User not found.", HttpStatus.NOT_FOUND);
+        }
     }
     
     public boolean deleteGasto(long id){

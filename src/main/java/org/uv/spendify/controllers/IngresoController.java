@@ -4,6 +4,7 @@
  */
 package org.uv.spendify.controllers;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -78,6 +79,12 @@ public class IngresoController {
     @GetMapping("/allIncomesByUser")
     public ResponseEntity<List<IngresoRegistrado>> getAllIncomesByUser(){
         List<IngresoRegistrado> incomes=service.getAllIncomesByUser();
+        return ResponseEntity.ok().body(incomes);
+    }
+    
+    @GetMapping("/")
+    public ResponseEntity<BigDecimal> sumOfIncomesByUser(){
+        BigDecimal incomes=service.sumOfIncomesByUser();
         return ResponseEntity.ok().body(incomes);
     }
     
