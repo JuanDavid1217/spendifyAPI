@@ -148,7 +148,7 @@ public class IngresoService {
             List<Ingreso> ingresos=u.getIngresos();
             BigDecimal total=new BigDecimal(0);
             for(Ingreso i:ingresos){
-                total.add(i.getMonto());
+                total=total.add(i.getMonto());
             }
             return total;
         }else{

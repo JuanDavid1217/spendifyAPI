@@ -167,7 +167,7 @@ public class GastoService {
                 for(PresupuestoDetalle pd:detalles){
                     List<Gasto> gastos=pd.getGastos();
                     for(Gasto g:gastos){
-                        total.add(g.getMonto());
+                        total=total.add(g.getMonto());
                     }
                 }
             }
