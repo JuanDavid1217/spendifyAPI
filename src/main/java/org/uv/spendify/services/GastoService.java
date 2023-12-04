@@ -7,6 +7,7 @@ package org.uv.spendify.services;
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import static java.time.temporal.ChronoUnit.DAYS;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -172,6 +173,28 @@ public class GastoService {
                 }
             }
             return total;
+        }else{
+            throw new Exceptions("User not found.", HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    public List<GastoRegistrado> getAllExpensesByUser(){
+        List<GastoRegistrado> gastosRegistrados=new ArrayList<>();
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario u=userService.userbyEmail(email);
+        if(u!=null){
+            List<Presupuesto> presupuestos=u.getPresupuestos();
+            for(Presupuesto p:presupuestos){
+                List<PresupuestoDetalle> detalles=p.getDetalles();
+                for(PresupuestoDetalle pd:detalles){
+                    List<Gasto> gastos=pd.getGastos();
+                    List<GastoRegistrado> list=gastoRegistradoConverter.entityListtoDTOList(gastos);
+                    for(GastoRegistrado gr:list){
+                        gastosRegistrados.add(gr);
+                    }
+                }
+            }
+            return gastosRegistrados;
         }else{
             throw new Exceptions("User not found.", HttpStatus.NOT_FOUND);
         }
