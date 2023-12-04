@@ -104,4 +104,10 @@ public class GastoController {
         BigDecimal gastos=gastoService.sumOfGastosByUser();
         return ResponseEntity.ok().body(gastos);
     }
+    
+    @GetMapping("/getAllExpensesByUser")
+    public ResponseEntity<List<GastoRegistrado>> getAllExpensesByUser(){
+        List<GastoRegistrado> gr=gastoService.getAllExpensesByUser();
+        return ResponseEntity.ok(gr);
+    }
 }
