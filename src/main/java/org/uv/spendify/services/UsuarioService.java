@@ -88,24 +88,29 @@ public class UsuarioService {
     public UsuarioAcces updateAccount(UsuarioAcces usuario){
         String email=SecurityContextHolder.getContext().getAuthentication().getName();
         Usuario u=repositorio.findByEmail(email);
+        Usuario validated = repositorio.findByEmail(usuario.getEmail());
         if(u!=null){
-            if(edadValidation(usuario.getEdad())){
-                    if(telefonoValidation(usuario.getTelefono())){
-                        u.setEdad(usuario.getEdad());
-                        u.setEmail(usuario.getEmail());
-                        u.setTelefono(usuario.getTelefono());
-                        u.setNombre(usuario.getNombre());
-                        u.setApellidoPaterno(usuario.getApellidoPaterno());
-                        u.setApellidoMaterno(usuario.getApellidoMaterno());
-                        u=repositorio.save(u);
-                        usuario=usuarioAccessConverter.entitytoDTO(u);
-                        return usuario;
+            if(validated==null){
+                if(edadValidation(usuario.getEdad())){
+                        if(telefonoValidation(usuario.getTelefono())){
+                            u.setEdad(usuario.getEdad());
+                            u.setEmail(usuario.getEmail());
+                            u.setTelefono(usuario.getTelefono());
+                            u.setNombre(usuario.getNombre());
+                            u.setApellidoPaterno(usuario.getApellidoPaterno());
+                            u.setApellidoMaterno(usuario.getApellidoMaterno());
+                            u=repositorio.save(u);
+                            usuario=usuarioAccessConverter.entitytoDTO(u);
+                            return usuario;
+                        }else{
+                            throw new Exceptions("Invalid phone number.", HttpStatus.CONFLICT);
+                        }
                     }else{
-                        throw new Exceptions("Invalid phone number.", HttpStatus.CONFLICT);
+                        throw new Exceptions("conflict with your age.", HttpStatus.CONFLICT);
                     }
-                }else{
-                    throw new Exceptions("conflict with your age.", HttpStatus.CONFLICT);
-                }
+            }else{
+                throw new Exceptions("Email already registered.", HttpStatus.CONFLICT);
+            }
         }else{
             return null;
         }
