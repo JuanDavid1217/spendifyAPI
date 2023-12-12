@@ -90,7 +90,7 @@ public class UsuarioService {
         Usuario u=repositorio.findByEmail(email);
         Usuario validated = repositorio.findByEmail(usuario.getEmail());
         if(u!=null){
-            if(validated==null){
+            if(validated==null||(validated!=null && email==validated.getEmail())){
                 if(edadValidation(usuario.getEdad())){
                         if(telefonoValidation(usuario.getTelefono())){
                             u.setEdad(usuario.getEdad());
